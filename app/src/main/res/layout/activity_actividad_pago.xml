@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/io_background"
-    tools:context=".ActividadAjustes">
-
+    tools:context=".ActividadPago">
 
 
     <TextView
@@ -110,7 +109,8 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/MotivoPago"
-        app:layout_constraintTop_toBottomOf="@+id/MonedaPagoValor" />
+        app:layout_constraintTop_toBottomOf="@+id/MonedaPagoValor"
+        tools:ignore="TextSizeCheck" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -154,8 +154,6 @@
         app:layout_constraintTop_toTopOf="@+id/linkGH"
         app:srcCompat="@drawable/githubmark"
         android:contentDescription="@string/logo_github" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="TextoQR" type="id" />
+    <item name="TextoInstruccion" type="id" />
+    <item name="MontoPago" type="id" />
+    <item name="MontoPagoValor" type="id" />
+    <item name="MonedaPago" type="id" />
+    <item name="MonedaPagoValor" type="id" />
+    <item name="MotivoPago" type="id" />
+    <item name="MotivoPagoValor" type="id" />
+    <item name="imageView2" type="id" />
+</resources>

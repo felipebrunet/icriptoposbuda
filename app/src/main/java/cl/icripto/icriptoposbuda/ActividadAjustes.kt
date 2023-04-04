@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
-
 class ActividadAjustes : AppCompatActivity() {
 
 //    Main function

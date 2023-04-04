@@ -4,16 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -125,7 +121,10 @@ class MainActivity : AppCompatActivity() {
                 if (input.text.isNotEmpty()) {
                     try {
                         val price: Double = input.text.toString().toDouble()
-                        if (price > 0) {
+                        if ((price > 150 && moneda == "CLP") ||
+                            (price > 50 && moneda == "ARS") ||
+                            (price > 0.9 && moneda == "PEN") ||
+                            (price > 860 && moneda == "COP")) {
 
                             if (tips == "yes") {
                                 payWithTip(server, localID, price, nombreLocal, moneda)
@@ -149,42 +148,16 @@ class MainActivity : AppCompatActivity() {
 
     //    Generic function for generating invoice, with all parameters required
     private fun goPayment(server: String, localID: String, price: Double, nombreLocal: String, moneda: String) {
-        val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
 
-        val request = Request.Builder()
-            .url(urlBuda)
-            .build()
-        val client = OkHttpClient()
+//        val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
+        val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = sharedPreferences.edit()
+        editor.apply{
+            putString("PRICE", price.toString())
+        }.apply()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful)
-                    {
-                        throw IOException("Unexpected code $response")
-                    } else {
-
-                        val response = response.body!!.string()
-                        val invoice = JSONObject(response).getString("encoded_payment_request")
-                        val checkId = JSONObject(response).getString("id")
-                        val monedaCobro = JSONObject(response).getString("currency")
-                        val memo = "Pago de $${price.toInt()} ${monedaCobro} a ${nombreLocal}"
-                        val satsAmount = JSONObject(response).getString("amount")
-                        Log.d("Respuesta", invoice)
-                        Log.d("Respuesta", checkId)
-                        Log.d("Respuesta", monedaCobro)
-                        Log.d("Respuesta", memo)
-                        Log.d("Respuesta", satsAmount)
-
-
-                    }
-                }
-            }
-        })
+        val intent = Intent(this, ActividadPago::class.java)
+        startActivity(intent)
 //        val urlIcripto = "${server}/api/v1/invoices?storeId=${localID}&price=${price}&checkoutDesc=${nombreLocal}&currency=${moneda}"
 //        startActivity(Intent.parseUri(urlBuda, 0))
     }
