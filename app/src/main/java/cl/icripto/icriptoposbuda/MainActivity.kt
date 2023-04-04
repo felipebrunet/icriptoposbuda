@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 if (input.text.isNotEmpty()) {
                     try {
                         val price: Double = input.text.toString().toDouble()
-                        if ((price > 150 && moneda == "CLP") ||
+                        if ((price > 149 && moneda == "CLP") ||
                             (price > 50 && moneda == "ARS") ||
                             (price > 0.9 && moneda == "PEN") ||
                             (price > 860 && moneda == "COP")) {

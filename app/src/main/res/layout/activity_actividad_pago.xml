@@ -113,7 +113,7 @@
         tools:ignore="TextSizeCheck" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/qrcodeimage"
         android:layout_width="338dp"
         android:layout_height="337dp"
         android:layout_marginTop="24dp"
@@ -132,7 +132,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/qrcodeimage" />
 
     <TextView
         android:id="@+id/linkGH"
