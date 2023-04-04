@@ -121,17 +121,17 @@ class MainActivity : AppCompatActivity() {
                 if (input.text.isNotEmpty()) {
                     try {
                         val price: Double = input.text.toString().toDouble()
-                        if ((price > 149 && moneda == "CLP") ||
-                            (price > 50 && moneda == "ARS") ||
-                            (price > 0.9 && moneda == "PEN") ||
-                            (price > 860 && moneda == "COP")) {
-
                             if (tips == "yes") {
                                 payWithTip(server, localID, price, nombreLocal, moneda)
                             } else {
-                                goPayment(server, localID, price, nombreLocal, moneda)
+                                if ((price > 149 && moneda == "CLP") ||
+                                    (price > 50 && moneda == "ARS") ||
+                                    (price > 0.9 && moneda == "PEN") ||
+                                    (price > 860 && moneda == "COP")) {
+                                    goPayment(server, localID, price, nombreLocal, moneda)
+                                }
                             }
-                        }
+
                     } catch (e: Exception) {
                         input.text = "Error"
                         input.setTextColor(ContextCompat.getColor(this, R.color.red))
@@ -180,7 +180,13 @@ class MainActivity : AppCompatActivity() {
                     1.0
                 }
             }
-            goPayment(server, localID, price*tipValue, nombreLocal, moneda)
+
+            if ((price * tipValue > 149 && moneda == "CLP") ||
+                (price * tipValue > 50 && moneda == "ARS") ||
+                (price * tipValue > 0.9 && moneda == "PEN") ||
+                (price * tipValue > 860 && moneda == "COP")) {
+                goPayment(server, localID, price * tipValue, nombreLocal, moneda)
+            }
         }
         builder.show()
     }

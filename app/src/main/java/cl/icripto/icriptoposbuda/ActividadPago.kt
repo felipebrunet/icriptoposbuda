@@ -1,6 +1,8 @@
 package cl.icripto.icriptoposbuda
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -8,10 +10,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
@@ -45,7 +50,7 @@ class ActividadPago : AppCompatActivity() {
         val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
 //        val checkURL = "http://172.21.6.98:5000"
 
-        findViewById<TextView>(R.id.MontoPagoValor).text = "$ $price"
+        findViewById<TextView>(R.id.MontoPagoValor).text = "$${price.toInt()}"
         findViewById<TextView>(R.id.MonedaPagoValor).text = moneda
         findViewById<TextView>(R.id.MotivoPagoValor).text = "Pago lightning para $server, de $nombreLocal"
 
@@ -83,6 +88,14 @@ class ActividadPago : AppCompatActivity() {
                             findViewById<ImageView>(R.id.qrcodeimage).setImageBitmap(
                                 getQrCodeBitmap(invoice)
                             )
+
+                            val copyButton = findViewById<Button>(R.id.copybutton)
+                            copyButton.setOnClickListener {
+                                val clipboard: ClipboardManager =
+                                    getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                val clip: ClipData = ClipData.newPlainText("copiar invoice", invoice)
+                                clipboard.setPrimaryClip(clip)
+                            }
                         }
 
                         val checkURL = "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId"
@@ -107,6 +120,7 @@ class ActividadPago : AppCompatActivity() {
                                         runOnUiThread {
                                             Log.d("Respuesta", "El URL encontro respuesta")
                                             findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
+                                            findViewById<ProgressBar>(R.id.progressBar).isInvisible = true
                                             Toast.makeText(
                                                 this@ActividadPago,
                                                 "Invoice Pagado!",
