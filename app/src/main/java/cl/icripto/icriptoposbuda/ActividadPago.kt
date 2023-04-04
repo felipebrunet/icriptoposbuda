@@ -18,7 +18,10 @@ import com.google.zxing.qrcode.QRCodeWriter
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
+
+//var checkURL: String = "https://realtime.buda.com/sub?channel=lightninginvoices%40gdrx"
 class ActividadPago : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,7 @@ class ActividadPago : AppCompatActivity() {
         val moneda = sharedPreferences.getString("LOCALMONEDA", defaultmoneda).toString()
 
         val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
+//        val checkURL = "http://172.21.6.98:5000"
 
         findViewById<TextView>(R.id.MontoPagoValor).text = "$ $price"
         findViewById<TextView>(R.id.MonedaPagoValor).text = moneda
@@ -47,16 +51,14 @@ class ActividadPago : AppCompatActivity() {
 
 //        findViewById<ImageView>(R.id.qrcodeimage).setImageBitmap(getQrCodeBitmap("34234234j2l3kjrl23kj"))
 
-        val request = Request.Builder()
-            .url(urlBuda)
-            .build()
-        val client = OkHttpClient()
 
+
+        val request = Request.Builder().url(urlBuda).build()
+        val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
-
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful)
@@ -76,53 +78,79 @@ class ActividadPago : AppCompatActivity() {
                         Log.d("Respuesta", memo)
                         Log.d("Respuesta", satsAmount)
                         Log.d("Respuesta",  "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId")
-
+//
                         runOnUiThread {
                             findViewById<ImageView>(R.id.qrcodeimage).setImageBitmap(
                                 getQrCodeBitmap(invoice)
                             )
-//                        runOnUiThread {
-//                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
-//                            Toast.makeText(this@ActividadPago, "Invoice Pagado!", Toast.LENGTH_SHORT).show()
-//                        }
                         }
-                        runOnUiThread {
-                            Log.d("Respuesta", "El URL encontro respuesta")
-                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
-                            Toast.makeText(
-                                this@ActividadPago,
-                                "Invoice Pagado!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-//                        val checkURL =
-//                            "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId"
-//                        val requestFinish = Request.Builder().url(checkURL).build()
-//                        val clientFinish = OkHttpClient()
-//                        clientFinish.newCall(requestFinish).enqueue(object : Callback {
-//                            override fun onFailure(call: Call, e: IOException) {
-//                                e.printStackTrace()
-//                            }
-//
-//                            override fun onResponse(call: Call, response: Response) {
-//                                response.use {
-//                                    if (!response.isSuccessful) {
-//                                        throw IOException("Unexpected code $response")
-//                                    } else {
-//
-//                                        runOnUiThread {
-//                                            Log.d("Respuesta", "El URL encontro respuesta")
-//                                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
-//                                            Toast.makeText(this@ActividadPago,"Invoice Pagado!", Toast.LENGTH_SHORT).show()
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        })
+
+                        val checkURL = "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId"
+//                        val checkURL = "http://172.21.6.98:5000"
+                        val requestFinish = Request.Builder().url(checkURL).build()
+                        val clientFinish = OkHttpClient.Builder()
+                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .writeTimeout(10, TimeUnit.SECONDS)
+                            .readTimeout(300, TimeUnit.SECONDS)
+                            .build()
+                        clientFinish.newCall(requestFinish).enqueue(object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                e.printStackTrace()
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                response.use {
+                                    if (!response.isSuccessful) {
+                                        throw IOException("Unexpected code $response")
+                                    } else {
+
+                                        runOnUiThread {
+                                            Log.d("Respuesta", "El URL encontro respuesta")
+                                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
+                                            Toast.makeText(
+                                                this@ActividadPago,
+                                                "Invoice Pagado!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            }
+                        })
+
+
                     }
                 }
             }
         })
+
+
+//        val requestFinish = Request.Builder().url(checkURL).build()
+//        val clientFinish = OkHttpClient()
+//        clientFinish.newCall(requestFinish).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                response.use {
+//                    if (!response.isSuccessful) {
+//                        throw IOException("Unexpected code $response")
+//                    } else {
+//
+//                        runOnUiThread {
+//                            Log.d("Respuesta", "El URL encontro respuesta")
+//                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
+//                            Toast.makeText(
+//                                this@ActividadPago,
+//                                "Invoice Pagado!",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    }
+//                }
+//            }
+//        })
 
     }
 
@@ -138,4 +166,6 @@ class ActividadPago : AppCompatActivity() {
             }
         }
     }
+
+
 }
