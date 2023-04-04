@@ -179,6 +179,8 @@ class MainActivity : AppCompatActivity() {
                         Log.d("Respuesta", monedaCobro)
                         Log.d("Respuesta", memo)
                         Log.d("Respuesta", satsAmount)
+
+
                     }
                 }
             }

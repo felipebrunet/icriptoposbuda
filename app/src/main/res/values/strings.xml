@@ -38,7 +38,12 @@
     <string name="no_tip">Sin propina</string>
     <string name="text_version">Icripto POS Buda V1.0.0</string>
     <string name="rueda_desc">Ajustes</string>
-
+    <string name="texto_qrbuda">Pago con Bitcoin Lightning</string>
+    <string name="instr_para_pagar">Escanea este código QR con tu billetera lightning para pagar</string>
+    <string name="monto">Monto:</string>
+    <string name="moneda">Moneda:</string>
+    <string name="motivo">Motivo:</string>
+    <string name="qr_para_pago_con_lightning">QR para pago con Lightning</string>
 
 
 </resources>
