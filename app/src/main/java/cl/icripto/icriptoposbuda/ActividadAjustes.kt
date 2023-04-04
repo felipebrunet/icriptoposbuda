@@ -55,9 +55,9 @@ class ActividadAjustes : AppCompatActivity() {
         val option : Spinner = findViewById(R.id.spinner_currencies2)
         val options : Array<String>
         if (savedMoneda == null) {
-            options = arrayOf("CLP")
+            options = arrayOf("ARS", "CLP", "COP", "PEN")
         } else {
-            options = arrayOf(savedMoneda) + arrayOf("CLP").filter{s -> s != savedMoneda}
+            options = arrayOf(savedMoneda) + arrayOf("ARS", "CLP", "COP", "PEN").filter{s -> s != savedMoneda}
         }
         var moneda : String = savedMoneda.toString()
 
