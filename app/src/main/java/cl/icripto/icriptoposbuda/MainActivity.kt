@@ -1,11 +1,15 @@
 package cl.icripto.icriptoposbuda
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -13,17 +17,14 @@ import androidx.core.content.ContextCompat
 
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_IcriptoPOSBuda)
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_main)
 
-        val adjustScreenButton = findViewById<Button>(R.id.botonAjustes)
-        adjustScreenButton.setOnClickListener {
-            val intent = Intent(this, ActividadAjustes::class.java)
-            startActivity(intent)
-        }
+
 
         val input: TextView = findViewById(R.id.input)
         val buttonBotondepago: Button = findViewById(R.id.link_twitter)
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val defaultServer = ""
         val defaultStoreId = ""
         val defaultTips = "no"
+        val defaultPin = "0000"
 
         //        Loading preexisting settings. If there are none, then load the default (view the "default... constants) values.
 
@@ -52,9 +54,53 @@ class MainActivity : AppCompatActivity() {
             getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
         val nombreLocal = sharedPreferences.getString("LOCALNOMBRE", defaultLocal).toString()
         val moneda = sharedPreferences.getString("LOCALMONEDA", defaultMoneda).toString()
+        val pin = sharedPreferences.getString("LOCALPIN", defaultPin).toString()
         val server = sharedPreferences.getString("LOCALSERVER", defaultServer).toString()
-        val localID = sharedPreferences.getString("LOCALID", defaultStoreId).toString()
+        sharedPreferences.getString("LOCALID", defaultStoreId).toString()
         val tips = sharedPreferences.getString("STATUSTIPS", defaultTips).toString()
+
+
+        val adjustScreenButton = findViewById<Button>(R.id.botonAjustes)
+        adjustScreenButton.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            if (pin == "0000") {
+                builder.setTitle("Crear Pin de 4 digitos")
+                val inputPin = EditText(this)
+                inputPin.inputType = InputType.TYPE_CLASS_NUMBER
+                builder.setView(inputPin)
+                builder.setNeutralButton("Ok") {
+                        dialog, _ -> dialog.dismiss()
+                    val sharedPreferencesPin : SharedPreferences = getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
+                    val editor : SharedPreferences.Editor = sharedPreferencesPin.edit()
+                    editor.apply{
+                        putString("LOCALPIN", inputPin.text.toString())
+                    }.apply()
+                    Toast.makeText(this, "Pin Guardado", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ActividadAjustes::class.java)
+                    startActivity(intent)
+
+                }
+                builder.show()
+            } else{
+                builder.setTitle("Ingrese Pin de 4 digitos")
+                val inputPin = EditText(this)
+                inputPin.inputType = InputType.TYPE_CLASS_NUMBER
+                builder.setView(inputPin)
+                builder.setNeutralButton("Ok") {
+                        dialog, _ -> dialog.dismiss()
+
+                    if(inputPin.text.toString() == pin) {
+                        Toast.makeText(this, "Acceso autorizado", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, ActividadAjustes::class.java)
+                        startActivity(intent)
+                    }
+
+                }
+                builder.show()
+            }
+
+
+        }
 
         findViewById<TextView>(R.id.moneda).text = moneda
         findViewById<TextView>(R.id.tituloLocal).text = nombreLocal
@@ -122,13 +168,13 @@ class MainActivity : AppCompatActivity() {
                     try {
                         val price: Double = input.text.toString().toDouble()
                             if (tips == "yes") {
-                                payWithTip(server, localID, price, nombreLocal, moneda)
+                                payWithTip(price, moneda)
                             } else {
                                 if ((price > 149 && moneda == "CLP") ||
                                     (price > 50 && moneda == "ARS") ||
                                     (price > 0.9 && moneda == "PEN") ||
                                     (price > 860 && moneda == "COP")) {
-                                    goPayment(server, localID, price, nombreLocal, moneda)
+                                    goPayment(price)
                                 }
                             }
 
@@ -147,7 +193,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //    Generic function for generating invoice, with all parameters required
-    private fun goPayment(server: String, localID: String, price: Double, nombreLocal: String, moneda: String) {
+    private fun goPayment(price: Double) {
 
 //        val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
         val sharedPreferences : SharedPreferences = getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
@@ -162,7 +208,8 @@ class MainActivity : AppCompatActivity() {
 //        startActivity(Intent.parseUri(urlBuda, 0))
     }
 
-    private fun payWithTip(server: String, localID: String, price: Double, nombreLocal: String, moneda: String) {
+    private fun payWithTip(price: Double, moneda: String) {
+
         val noTip = R.string.no_tip
         var tipValue: Double
         val tipString = getString(noTip)
@@ -185,9 +232,26 @@ class MainActivity : AppCompatActivity() {
                 (price * tipValue > 50 && moneda == "ARS") ||
                 (price * tipValue > 0.9 && moneda == "PEN") ||
                 (price * tipValue > 860 && moneda == "COP")) {
-                goPayment(server, localID, price * tipValue, nombreLocal, moneda)
+                goPayment(price * tipValue)
             }
         }
         builder.show()
     }
+
+
+//    fun getPassword() {
+//        val builder = AlertDialog.Builder(this)
+//        builder.setTitle("Ingrese Password")
+//        val input = EditText(this)
+//        input.inputType = InputType.TYPE_CLASS_NUMBER
+//        builder.setView(input)
+//        builder.setNeutralButton(
+//            "Ok"
+//        ) { dialog, which -> dialog.cancel() }
+//
+//
+//
+//        builder.show()
+//
+//    }
 }

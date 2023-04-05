@@ -25,8 +25,6 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-
-//var checkURL: String = "https://realtime.buda.com/sub?channel=lightninginvoices%40gdrx"
 class ActividadPago : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
