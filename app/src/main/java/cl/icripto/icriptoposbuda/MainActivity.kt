@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         adjustScreenButton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             if (pin == "") {
-                builder.setTitle("Crear Pin de 4 digitos")
+                builder.setTitle("Crear Pin (Largo libre)")
                 val inputPin = EditText(this)
                 inputPin.inputType = InputType.TYPE_CLASS_NUMBER
                 builder.setView(inputPin)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 builder.show()
             } else{
-                builder.setTitle("Ingrese Pin de 4 digitos")
+                builder.setTitle("Ingrese Pin (Largo libre)")
                 val inputPin = EditText(this)
                 inputPin.inputType = InputType.TYPE_CLASS_NUMBER
                 builder.setView(inputPin)
@@ -167,16 +167,16 @@ class MainActivity : AppCompatActivity() {
                 if (input.text.isNotEmpty()) {
                     try {
                         val price: Double = input.text.toString().toDouble()
-                            if (tips == "yes") {
-                                payWithTip(price, moneda)
-                            } else {
-                                if ((price > 149 && moneda == "CLP") ||
-                                    (price > 50 && moneda == "ARS") ||
-                                    (price > 0.9 && moneda == "PEN") ||
-                                    (price > 860 && moneda == "COP")) {
-                                    goPayment(price)
-                                }
+                        if (tips == "yes") {
+                            payWithTip(price, moneda)
+                        } else {
+                            if ((price > 149 && moneda == "CLP") ||
+                                (price > 50 && moneda == "ARS") ||
+                                (price > 0.9 && moneda == "PEN") ||
+                                (price > 860 && moneda == "COP")) {
+                                goPayment(price)
                             }
+                        }
 
                     } catch (e: Exception) {
                         input.text = "Error"

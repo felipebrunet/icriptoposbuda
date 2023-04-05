@@ -33,21 +33,21 @@ class ActividadPago : AppCompatActivity() {
         val defaultPrice = 0.0
         val defaultNombreLocal = ""
         val defaultServer = ""
-        val defaultmoneda = "CLP"
+        val defaultMoneda = "CLP"
 
         val sharedPreferences: SharedPreferences =
             getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
         val price = sharedPreferences.getString("PRICE", defaultPrice.toString()).toString().toDouble()
         val nombreLocal = sharedPreferences.getString("LOCALNOMBRE", defaultNombreLocal).toString()
         val server = sharedPreferences.getString("LOCALSERVER", defaultServer).toString()
-        val moneda = sharedPreferences.getString("LOCALMONEDA", defaultmoneda).toString()
+        val moneda = sharedPreferences.getString("LOCALMONEDA", defaultMoneda).toString()
 
         val urlBuda = "https://www.buda.com/api/v2/pay/${server}/invoice?amount=${price}&description=cobro_${nombreLocal}"
 //        val checkURL = "http://172.21.6.98:5000"
 
         findViewById<TextView>(R.id.MontoPagoValor).text = "$${price.toInt()}"
         findViewById<TextView>(R.id.MonedaPagoValor).text = moneda
-        findViewById<TextView>(R.id.MotivoPagoValor).text = "Pago lightning para $server, de $nombreLocal"
+        findViewById<TextView>(R.id.MotivoPagoValor).text = "Pago a $nombreLocal (vendor $server)"
 
 //        findViewById<ImageView>(R.id.qrcodeimage).setImageBitmap(getQrCodeBitmap("34234234j2l3kjrl23kj"))
 
@@ -70,7 +70,9 @@ class ActividadPago : AppCompatActivity() {
                             Toast.makeText(
                                 this@ActividadPago,
                                 "Usuario no registrado, revisar en Ajustes y en Buda.com",
-                                Toast.LENGTH_LONG).show()
+                                Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@ActividadPago, MainActivity::class.java)
+                            startActivity(intent)
                         }
                         throw IOException("Unexpected code $response")
 
