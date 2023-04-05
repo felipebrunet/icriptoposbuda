@@ -1,7 +1,6 @@
 Icripto POS Buda es un terminal de pago Android, que permite cobrar bitcoin lightning con pago directamente a la cuenta del vendedor en Buda.com
 La app aún tiene temas pendientes como:
 - Permitir pagos Onchain a la cuenta del vendedor en Buda.com
-- Proteger página de configuración con contraseña
 - Publicarse en Google Play
 
 La idea de esta App es que se mantenga como 100% código libre, y además que no cuente con ningún servicio Backend que pudiese extraer datos de los vendedores o clientes.

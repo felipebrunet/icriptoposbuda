@@ -57,7 +57,7 @@
         android:id="@+id/TextoServidor"
         android:layout_width="350dp"
         android:layout_height="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="start"
         android:text="@string/ingrese_servidor"
         android:textSize="15sp"
@@ -69,7 +69,7 @@
     <EditText
         android:id="@+id/URLServicio"
         android:layout_width="349dp"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_marginTop="5dp"
         android:autofillHints=""
         android:background="@color/white"
@@ -79,13 +79,14 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/TextoServidor"
         app:layout_constraintStart_toStartOf="@+id/TextoServidor"
-        app:layout_constraintTop_toBottomOf="@+id/TextoServidor" />
+        app:layout_constraintTop_toBottomOf="@+id/TextoServidor"
+        tools:ignore="TouchTargetSizeCheck" />
 
 
     <TextView
         android:id="@+id/TextoIDTienda"
         android:layout_width="348dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:gravity="start"
         android:text="@string/ingrese_id_tienda"
@@ -173,18 +174,19 @@
         android:layout_height="30dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="@string/servidor_actual"
+        android:text="@string/usuario_actual"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/botonVolver" />
 
     <TextView
         android:id="@+id/servidorActualValor"
         android:layout_width="250dp"
-        android:layout_height="40dp"
+        android:layout_height="25dp"
         android:layout_marginStart="10dp"
-        tools:text="hoalalalalalal"
         app:layout_constraintStart_toEndOf="@+id/servidorActual"
-        app:layout_constraintTop_toTopOf="@+id/servidorActual" />
+        app:layout_constraintTop_toTopOf="@+id/servidorActual"
+        tools:ignore="TextSizeCheck"
+        tools:text="hoalalalalalal" />
 
     <TextView
         android:id="@+id/IDActual"
@@ -239,12 +241,35 @@
         android:id="@+id/tips1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:showText="false"
         android:text="@string/switch_propinas"
         app:layout_constraintStart_toStartOf="@+id/TextoServidor"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
         tools:ignore="UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
+
+    <Switch
+        android:id="@+id/onChain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:showText="false"
+        android:text="@string/switch_onchain"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClearPin"
+        app:layout_constraintStart_toEndOf="@+id/tips1"
+        app:layout_constraintTop_toTopOf="@+id/tips1"
+        tools:ignore="UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/buttonClearPin"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/gray1"
+        android:text="@string/borrar_pin"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/onChain"
+        app:layout_constraintEnd_toEndOf="@+id/TextoServidor"
+        app:layout_constraintTop_toTopOf="@+id/onChain"
+        tools:ignore="TextSizeCheck,TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

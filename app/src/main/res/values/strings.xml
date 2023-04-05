@@ -21,7 +21,7 @@
     <string name="ingrese_servidor">Ingrese usuario link de pago Buda: (requerido)</string>
     <string name="texto_ajustes">Ajustes</string>
     <string name="icono_ajustes">⚙️</string>
-    <string name="ingrese_id_tienda">Ingrese API Key para pagos onchain: (opcional)</string>
+    <string name="ingrese_id_tienda">Buda API Key pagos BTC onchain: (Desarrollo pendiente)</string>
     <string name="ingrese_nombre_local">Ingrese el nombre del local: (opcional)</string>
     <string name="texto_guardar">Guardar</string>
     <string name="texto_volver">Volver</string>
@@ -29,7 +29,7 @@
     <string name="ID_local">API Key de Buda</string>
     <string name="URL_servidor_BTCPay">Sólo el nombre: buda.com/link/{nombre}</string>
     <string name="id_actual">ID Actual: </string>
-    <string name="servidor_actual">Servidor Actual: </string>
+    <string name="usuario_actual">Usuario Buda: </string>
     <string name="github_repo"><a href="https://github.com/felipebrunet/icriptoposbuda">Open Source</a></string>
     <string name="logo_github">Logo Github</string>
     <string name="switch_propinas">Propinas</string>
@@ -48,6 +48,8 @@
     <string name="monedapagovalor">CLP</string>
     <string name="motivopagovalor">Pago lightning para Felipe, de Restaurant A</string>
     <string name="copiar_lightning_invoice">Copiar lightning Invoice</string>
+    <string name="switch_onchain">On Chain</string>
+    <string name="borrar_pin">Borrar Pin</string>
 
 
 </resources>

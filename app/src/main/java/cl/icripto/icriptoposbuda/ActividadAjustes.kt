@@ -9,6 +9,8 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+
 
 class ActividadAjustes : AppCompatActivity() {
 
@@ -18,6 +20,9 @@ class ActividadAjustes : AppCompatActivity() {
         setContentView(R.layout.activity_actividad_ajustes)
 
 //    Make current server settings selectable for copy by the user
+
+//        val switchInternet = findViewById<View>(R.id.onChain) as Switch
+//        switchInternet.isClickable = false
         findViewById<TextView>(R.id.servidorActualValor).setTextIsSelectable(true)
         findViewById<TextView>(R.id.IDActualValor).setTextIsSelectable(true)
 
@@ -40,6 +45,12 @@ class ActividadAjustes : AppCompatActivity() {
         val savedID: String? = sharedPreferences.getString("LOCALID", defaultStoreId)
         val tips : String? = sharedPreferences.getString("STATUSTIPS", defaultTips)
 
+
+        findViewById<View>(R.id.onChain).isInvisible = true
+        findViewById<TextView>(R.id.TextoIDTienda).isInvisible = true
+        findViewById<EditText>(R.id.IDTienda).isInvisible = true
+        findViewById<TextView>(R.id.IDActual).isInvisible = true
+        findViewById<TextView>(R.id.IDActualValor).isInvisible = true
 //    Filling displayed server data (bottom of screen) with server parameters.
         findViewById<TextView>(R.id.servidorActualValor).text = savedServer
         findViewById<TextView>(R.id.IDActualValor).text = savedID
@@ -76,6 +87,17 @@ class ActividadAjustes : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 moneda = options[p2]
             }
+        }
+
+        val resetPinButton = findViewById<Button>(R.id.buttonClearPin)
+        resetPinButton.setOnClickListener {
+            val sharedPreferencesPin : SharedPreferences = getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = sharedPreferencesPin.edit()
+            editor.apply{
+                putString("LOCALPIN", "")
+            }.apply()
+            Toast.makeText(this, "PIN Borrado", Toast.LENGTH_SHORT).show()
+
         }
 
 //    Setup of the "Save" button
