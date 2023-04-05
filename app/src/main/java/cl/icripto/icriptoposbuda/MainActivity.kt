@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         val defaultServer = ""
         val defaultStoreId = ""
         val defaultTips = "no"
-        val defaultPin = "0000"
+        val defaultPin = ""
 
         //        Loading preexisting settings. If there are none, then load the default (view the "default... constants) values.
 
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         val adjustScreenButton = findViewById<Button>(R.id.botonAjustes)
         adjustScreenButton.setOnClickListener {
             val builder = AlertDialog.Builder(this)
-            if (pin == "0000") {
+            if (pin == "") {
                 builder.setTitle("Crear Pin de 4 digitos")
                 val inputPin = EditText(this)
                 inputPin.inputType = InputType.TYPE_CLASS_NUMBER

@@ -1,10 +1,7 @@
 package cl.icripto.icriptoposbuda
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
@@ -60,13 +57,23 @@ class ActividadPago : AppCompatActivity() {
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
+
+//                Toast.makeText(this@ActividadPago, e.printStackTrace().toString(), Toast.LENGTH_SHORT).show()
+//                startActivity(Intent(this@ActividadPago, MainActivity::class.java))
                 e.printStackTrace()
             }
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful)
                     {
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@ActividadPago,
+                                "Usuario no registrado, revisar en Ajustes y en Buda.com",
+                                Toast.LENGTH_LONG).show()
+                        }
                         throw IOException("Unexpected code $response")
+
                     } else {
 
                         val resp = response.body!!.string()
