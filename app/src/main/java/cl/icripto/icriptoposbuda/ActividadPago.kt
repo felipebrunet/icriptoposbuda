@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.util.Log
+//import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -57,9 +57,6 @@ class ActividadPago : AppCompatActivity() {
         val client = OkHttpClient()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-
-//                Toast.makeText(this@ActividadPago, e.printStackTrace().toString(), Toast.LENGTH_SHORT).show()
-//                startActivity(Intent(this@ActividadPago, MainActivity::class.java))
                 e.printStackTrace()
             }
             override fun onResponse(call: Call, response: Response) {
@@ -82,14 +79,14 @@ class ActividadPago : AppCompatActivity() {
                         val invoice: String = JSONObject(resp).getString("encoded_payment_request")
                         val checkId = JSONObject(resp).getString("id")
                         val monedaCobro = JSONObject(resp).getString("currency")
-                        val memo = "Pago de $${price.toInt()} $monedaCobro a $nombreLocal"
-                        val satsAmount = JSONObject(resp).getString("amount")
-                        Log.d("Respuesta", invoice)
-                        Log.d("Respuesta", checkId)
-                        Log.d("Respuesta", monedaCobro)
-                        Log.d("Respuesta", memo)
-                        Log.d("Respuesta", satsAmount)
-                        Log.d("Respuesta",  "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId")
+//                        val memo = "Pago de $${price.toInt()} $monedaCobro a $nombreLocal"
+//                        val satsAmount = JSONObject(resp).getString("amount")
+//                        Log.d("Respuesta", invoice)
+//                        Log.d("Respuesta", checkId)
+//                        Log.d("Respuesta", monedaCobro)
+//                        Log.d("Respuesta", memo)
+//                        Log.d("Respuesta", satsAmount)
+//                        Log.d("Respuesta",  "https://realtime.buda.com/sub?channel=lightninginvoices%40$checkId")
 //
                         runOnUiThread {
                             findViewById<TextView>(R.id.MonedaPagoValor).text = monedaCobro
@@ -126,7 +123,7 @@ class ActividadPago : AppCompatActivity() {
                                     } else {
 
                                         runOnUiThread {
-                                            Log.d("Respuesta", "El URL encontro respuesta")
+//                                            Log.d("Respuesta", "El URL encontro respuesta")
                                             findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
                                             findViewById<ProgressBar>(R.id.progressBar).isInvisible = true
                                             Toast.makeText(
@@ -146,38 +143,10 @@ class ActividadPago : AppCompatActivity() {
             }
         })
 
-
-//        val requestFinish = Request.Builder().url(checkURL).build()
-//        val clientFinish = OkHttpClient()
-//        clientFinish.newCall(requestFinish).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                e.printStackTrace()
-//            }
-//
-//            override fun onResponse(call: Call, response: Response) {
-//                response.use {
-//                    if (!response.isSuccessful) {
-//                        throw IOException("Unexpected code $response")
-//                    } else {
-//
-//                        runOnUiThread {
-//                            Log.d("Respuesta", "El URL encontro respuesta")
-//                            findViewById<ImageView>(R.id.qrcodeimage).setImageResource(R.drawable.checkmark)
-//                            Toast.makeText(
-//                                this@ActividadPago,
-//                                "Invoice Pagado!",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                        }
-//                    }
-//                }
-//            }
-//        })
-
     }
 
     fun getQrCodeBitmap(invoice: String): Bitmap {
-        val size = 240 //pixels
+        val size = 640 //pixels
         hashMapOf<EncodeHintType, Int>().also { it[EncodeHintType.MARGIN] = 1 } // Make the QR code buffer border narrower
         val bits = QRCodeWriter().encode(invoice, BarcodeFormat.QR_CODE, size, size)
         return Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565).also {

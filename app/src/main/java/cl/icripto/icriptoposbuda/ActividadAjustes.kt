@@ -51,9 +51,10 @@ class ActividadAjustes : AppCompatActivity() {
         findViewById<EditText>(R.id.IDTienda).isInvisible = true
         findViewById<TextView>(R.id.IDActual).isInvisible = true
         findViewById<TextView>(R.id.IDActualValor).isInvisible = true
+
 //    Filling displayed server data (bottom of screen) with server parameters.
         findViewById<TextView>(R.id.servidorActualValor).text = savedServer
-        findViewById<TextView>(R.id.IDActualValor).text = savedID
+//        findViewById<TextView>(R.id.IDActualValor).text = savedID
 
 //    Filling parameter text fields with server parameters and merchant name
         findViewById<EditText>(R.id.NLocal).setText(savedLocal)

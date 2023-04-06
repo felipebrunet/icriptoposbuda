@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.InputType
+import android.view.ContextThemeWrapper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -62,13 +62,12 @@ class MainActivity : AppCompatActivity() {
 
         val adjustScreenButton = findViewById<Button>(R.id.botonAjustes)
         adjustScreenButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AlertDialogCustom))//(this)
             if (pin == "") {
-                builder.setTitle("Crear Pin (Largo libre)")
-                val inputPin = EditText(this)
-                inputPin.inputType = InputType.TYPE_CLASS_NUMBER
+                builder.setTitle("Crear clave Pin")
+                val inputPin = EditText(ContextThemeWrapper(this, R.style.AlertInputCustom))
                 builder.setView(inputPin)
-                builder.setNeutralButton("Ok") {
+                builder.setPositiveButton("Ok") {
                         dialog, _ -> dialog.dismiss()
                     val sharedPreferencesPin : SharedPreferences = getSharedPreferences("sharedPres", Context.MODE_PRIVATE)
                     val editor : SharedPreferences.Editor = sharedPreferencesPin.edit()
@@ -82,17 +81,19 @@ class MainActivity : AppCompatActivity() {
                 }
                 builder.show()
             } else{
-                builder.setTitle("Ingrese Pin (Largo libre)")
-                val inputPin = EditText(this)
-                inputPin.inputType = InputType.TYPE_CLASS_NUMBER
+                builder.setTitle("Ingrese Pin secreto")
+                val inputPin = EditText(ContextThemeWrapper(this, R.style.AlertInputCustom))
                 builder.setView(inputPin)
-                builder.setNeutralButton("Ok") {
+                builder.setPositiveButton("Ok") {
                         dialog, _ -> dialog.dismiss()
 
                     if(inputPin.text.toString() == pin) {
                         Toast.makeText(this, "Acceso autorizado", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, ActividadAjustes::class.java)
                         startActivity(intent)
+                    }
+                    else {
+                        Toast.makeText(this, "Acceso denegado", Toast.LENGTH_SHORT).show()
                     }
 
                 }
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             input.text = addToInputText(initString, input)
         } else {
 
-            //        Setting the functions of buttons
+//        Setting the functions of buttons
 
             buttonBorrar.setOnClickListener {
                 input.text = ""
